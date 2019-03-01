@@ -1,18 +1,21 @@
+// ### In system include path ###
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <pwd.h>
+#include <unistd.h>
+// ending
+#include "sgx_error.h"
 
-# include <unistd.h>
-# include <pwd.h>
-
-# include "app_demo.h"
-# include "sgx_error.h"
-
-# define MAX_PATH FILENAME_MAX
+#define MAX_PATH FILENAME_MAX
+#define TOKEN_FILENAME   "enclave.token"
+#define ENCLAVE_FILENAME "enclave.signed.so"
 
 #include "sgx_urts.h"
 #include "enclave_u.h"
+
+sgx_enclave_id_t global_eid;
 
 int initialize_enclave(void)
 {
@@ -25,7 +28,7 @@ int initialize_enclave(void)
      *         if there is no token, then create a new one.
      */
     /* try to get the token saved in $HOME */
-    const char *pwd = get_current_dir_name();
+    const char *pwd = getpwuid(getuid())->pw_dir;
     
     if (pwd != NULL && 
         (strlen(pwd)+strlen("/")+sizeof(TOKEN_FILENAME)+1) <= MAX_PATH) {
@@ -79,7 +82,6 @@ int initialize_enclave(void)
     return 0;
 }
 
-/* OCall functions */
 void ocall_print_string(const char *str)
 {
     /* Proxy/Bridge will check the length and null-terminate 
@@ -92,8 +94,6 @@ int main(int argc, char *argv[])
 {
     /* Initialize the enclave */
     if(initialize_enclave() < 0){
-        printf("Enter a character before exit ...\n");
-        getchar();
         return -1; 
     }
 
@@ -103,8 +103,5 @@ int main(int argc, char *argv[])
     sgx_destroy_enclave(global_eid);
     
     printf("Info: SampleEnclave successfully returned.\n");
-
-    printf("Enter a character before exit ...\n");
-    getchar();
     return 0;
 }

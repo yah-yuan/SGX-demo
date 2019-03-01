@@ -17,3 +17,4 @@ all:
 clean:
 	@$(MAKE) -C $(Enclave_Path) clean
 	@$(MAKE) -C $(App_Path)  clean
+	@rm -f .gdb_history peda-session*

@@ -5,6 +5,6 @@ enclave {
     };
 
     untrusted {
-        // nothing
+        void ocall_print_string([in, string] const char * str);
     };
 };

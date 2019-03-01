@@ -32,7 +32,7 @@ Enclave_C_Files = $(Enclave_Name).c $(Enclave_Name)_t.c
 #########
 Enclave_C_Objects = $(Enclave_C_Files:.c=.o)
 Enclave_Object := $(Enclave_Name).so
-Signed_Enclave_Object := $(Enclave_Name).signed.so
+Signed_Enclave_Object := $(ROOT)/$(Enclave_Name).signed.so
 Enclave_Config_File := $(Enclave_Name).config.xml
 Enclave_Key_File = $(Enclave_Name).pem
 Enclave_EDL = $(INCLUDE_DIR)/enclave.edl
@@ -41,7 +41,7 @@ Enclave_EDL = $(INCLUDE_DIR)/enclave.edl
 .PHONY: clean
 
 $(Signed_Enclave_Object): $(Enclave_Object) $(Enclave_Key_File)
-	@echo "SIGN =>  $@"
+	@echo "[SIGN] =>  $@"
 	@$(SGX_ENCLAVE_SIGNER) sign -key $(Enclave_Key_File) -enclave $(Enclave_Object) -out $@ -config $(Enclave_Config_File)
 
 $(Enclave_Key_File):
@@ -49,11 +49,19 @@ $(Enclave_Key_File):
 	@$(SSL) genrsa -out $@ -3 3072
 
 %.o: %.c
-	@echo "CC  $< => $@"
+	@echo "[CC]  $< => $@"
 	@$(CC) $(Enclave_C_Flags) -c $< -o $@
 
+$(Enclave_Name).o: $(Enclave_Name).c $(Enclave_Name)_t.h
+	@echo "[CC] $< => $@"
+	@$(CC) $(Enclave_C_Flags) -c $< -o $@ 
+
 $(Enclave_Name)_t.c: $(Enclave_EDL)
-	@echo "GEN  =>  $@"
+	@echo "[GEN]  =>  $@"
+	@$(SGX_EDGER8R) --trusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
+
+$(Enclave_Name)_t.h: $(Enclave_EDL)
+	@echo "[GEN]  =>  $@"
 	@$(SGX_EDGER8R) --trusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
 
 $(Enclave_Object): $(Enclave_C_Objects)
@@ -62,4 +70,4 @@ $(Enclave_Object): $(Enclave_C_Objects)
 
 clean:
 	@echo [RM] $(Enclave_Name)
-	@rm -f enclave_t.* *.o $(Signed_Enclave_Object) $(Enclave_Object) $(Enclave_Key_File)
+	@rm -f enclave_t.* *.o $(Signed_Enclave_Object) $(Enclave_Object)

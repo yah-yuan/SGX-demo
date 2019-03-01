@@ -95,8 +95,8 @@ void print_error_message(sgx_status_t ret)
     for (idx = 0; idx < ttl; idx++) {
         if(ret == sgx_errlist[idx].err) {
             if(NULL != sgx_errlist[idx].sug)
-                printf("Info: %s\n", sgx_errlist[idx].sug);
-            printf("Error: %s\n", sgx_errlist[idx].msg);
+                printf("Info 0x%X: %s\n", ret, sgx_errlist[idx].sug);
+            printf("Error 0x%X: %s\n", ret, sgx_errlist[idx].msg);
             break;
         }
     }
