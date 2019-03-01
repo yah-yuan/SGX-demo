@@ -42,8 +42,9 @@ Enclave_EDL = $(INCLUDE_DIR)/enclave.edl
 
 $(Signed_Enclave_Object): $(Enclave_Object) $(Enclave_Key_File)
 	@echo "[SIGN] =>  $@"
-	@$(SGX_ENCLAVE_SIGNER) sign -key $(Enclave_Key_File) -enclave $(Enclave_Object) -out $@ -config $(Enclave_Config_File)
-
+	@$(SGX_ENCLAVE_SIGNER) sign -key $(Enclave_Key_File) -enclave $(Enclave_Object) \
+		-out $@ -config $(Enclave_Config_File) >/dev/null
+	
 $(Enclave_Key_File):
 	@echo "[GEN] => $@"
 	@$(SSL) genrsa -out $@ -3 3072

@@ -16,6 +16,7 @@
 #include "enclave_u.h"
 
 sgx_enclave_id_t global_eid;
+extern void print_error_message(sgx_status_t ret);
 
 int initialize_enclave(void)
 {
