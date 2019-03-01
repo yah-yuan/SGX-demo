@@ -13,6 +13,7 @@ export ROOT=$(shell pwd)
 all:
 	@$(MAKE) -C $(Enclave_Path) SGX_MODE=$(SGX_MODE)
 	@$(MAKE) -C $(App_Path)  SGX_MODE=$(SGX_MODE)
+	@echo && echo DONE
 
 clean:
 	@$(MAKE) -C $(Enclave_Path) clean

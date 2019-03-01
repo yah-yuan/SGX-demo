@@ -20,14 +20,12 @@ App_Include_Paths := -I$(SGX_SDK)/include -I$(INCLUDE_DIR)
 App_C_Flags := $(SGX_COMMON_CFLAGS) -fPIC -Wno-attributes $(App_Include_Paths)
 
 ifeq ($(SGX_DEBUG), 1)
-        App_C_Flags += -DDEBUG -UNDEBUG -UEDEBUG
-else ifeq ($(SGX_PRERELEASE), 1)
-        App_C_Flags += -DNDEBUG -DEDEBUG -UDEBUG
+        App_C_Flags += -DDEBUG -UNDEBUG
 else
-        App_C_Flags += -DNDEBUG -UEDEBUG -UDEBUG
+        App_C_Flags += -DNDEBUG -UDEBUG
 endif
 
-App_Link_Flags := $(SGX_COMMON_CFLAGS) -L$(SGX_LIBRARY_PATH) -l$(Urts_Library_Name) -lpthread 
+App_Link_Flags := $(SGX_COMMON_CFLAGS) -L$(SGX_LIBRARY_PATH) -l$(Urts_Library_Name) -lpthread
 
 App_Name := app_demo
 ######### Add other .c files here
