@@ -1,0 +1,10 @@
+enclave {
+
+    trusted {
+        public void e_call_print_secret();
+    };
+
+    untrusted {
+        // nothing
+    };
+};
