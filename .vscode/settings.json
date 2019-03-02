@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "sgx_error.h": "c",
+        "stdbool.h": "c",
+        "sgx_urts.h": "c",
+        "pwd.h": "c",
+        "enclave_u.h": "c"
+    }
+}

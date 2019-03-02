@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <stdbool.h>
 #include <pwd.h>
 #include <unistd.h>
 // ending
@@ -103,6 +102,6 @@ int main(int argc, char *argv[])
     /* Destroy the enclave */
     sgx_destroy_enclave(global_eid);
     
-    printf("Info: SampleEnclave successfully returned.\n");
+    printf("Info: demo enclave successfully returned.\n");
     return 0;
 }

@@ -52,11 +52,11 @@ app_demo.o: app_demo.c $(Enclave_Name)_u.h
 	@$(CC) $(App_C_Flags) -c $< -o $@
 
 $(Enclave_Name)_u.h:
-	@echo "[GEN] $@"
+	@echo "[GEN] $@ $(Enclave_Name)_u.c"
 	@$(SGX_EDGER8R) --untrusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
 
 $(Enclave_Name)_u.c:
-	@echo "[GEN] $@"
+	@echo "[GEN] $@ $(Enclave_Name)_u.h"
 	@$(SGX_EDGER8R) --untrusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
 
 clean:

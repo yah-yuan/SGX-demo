@@ -4,12 +4,20 @@ Just learning of SGX programming structure
 
 other C-based sgx applications of mine should base on this framwork
 
-Requirements:
+### Requirements:
 
 * gcc version > 4.9
 * x86_64
+* make
 
-Notes:
+### Usage:
+
+```sh
+make
+./app_demo
+```
+
+### Notes:
 
 * Can not be debuged using gdb. SGXSDK provides its own debug tool named sgx-gdb. Technically it is an advanced and adapted debug tool based on GNU gdb, but seems it isn't compatibal with vscode(guese not neither with other ides). However, it is known that Visual Studio works fine with it.
 

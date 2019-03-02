@@ -58,15 +58,15 @@ $(Enclave_Name).o: $(Enclave_Name).c $(Enclave_Name)_t.h
 	@$(CC) $(Enclave_C_Flags) -c $< -o $@ 
 
 $(Enclave_Name)_t.c: $(Enclave_EDL)
-	@echo "[GEN]  =>  $@"
+	@echo "[GEN]  =>  $@ $(Enclave_Name)_t.h"
 	@$(SGX_EDGER8R) --trusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
 
 $(Enclave_Name)_t.h: $(Enclave_EDL)
-	@echo "[GEN]  =>  $@"
+	@echo "[GEN]  =>  $@ $(Enclave_Name)_t.c"
 	@$(SGX_EDGER8R) --trusted $(Enclave_EDL) --search-path $(INCLUDE_DIR) --search-path $(SGX_SDK)/include
 
 $(Enclave_Object): $(Enclave_C_Objects)
-	@echo "[LD] $< =>  $@"
+	@echo "[LD] $< =>  $@ "
 	@$(LD) $^ -o $@ $(Enclave_Link_Flags)
 
 clean:
